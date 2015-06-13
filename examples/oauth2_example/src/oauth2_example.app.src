@@ -1,0 +1,23 @@
+{application, oauth2_example,
+ [
+  {description, "OAuth2 example using mnesia backend."},
+  {vsn, "0.0.1"},
+  {applications,
+   [
+    kernel,
+    stdlib,
+    mnesia,
+    lager,
+    jiffy,
+    oauth2,
+    oauth2_mnesia_backend,
+    cowboy
+   ]
+  },
+  {modules, []},
+  {mod, {oauth2_example, []}},
+  {registered, []},
+  {env, []},
+  {start_phases, [{start_oauth2_backend, []}, {start_cowboy_listeners, []}]}
+ ]
+}.
