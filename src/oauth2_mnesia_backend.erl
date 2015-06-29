@@ -122,9 +122,12 @@ start(TablesConfig, Nodes) ->
 stop() ->
   ok.
 
--spec get_user(binary()) -> user().
+-spec get_user(binary()) -> user() | notfound.
 get_user(Username) ->
-  get(?USER_TABLE, Username).
+  case get(?USER_TABLE, Username) of
+    {ok, User} -> User;
+    _          -> notfound
+  end.
 
 -spec add_user(binary(), binary()) -> ok.
 add_user(Username, Password) ->
@@ -134,9 +137,12 @@ add_user(Username, Password) ->
 delete_user(Username) ->
   delete(?USER_TABLE, Username).
 
--spec get_client(binary()) -> client().
+-spec get_client(binary()) -> client() | notfound.
 get_client(ClientId) ->
-  get(?CLIENT_TABLE, ClientId).
+  case get(?CLIENT_TABLE, ClientId) of
+    {ok, Client} -> Client;
+    _            -> notfound
+  end.
 
 -spec add_client(binary(), binary(), binary()) -> ok.
 add_client(Id, Secret, RedirectUri) ->
