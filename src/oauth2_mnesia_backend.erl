@@ -32,8 +32,10 @@
 -export([start/1,
          start/2,
          stop/0,
+         get_user/1,
          add_user/2,
          delete_user/1,
+         get_client/1,
          add_client/2,
          add_client/3,
          delete_client/1]).
@@ -92,11 +94,13 @@
 %% User spec
 -record(user, {username :: binary(),
                password :: binary()}).
+-type user() :: #user{}.
 
 %% Client spec
 -record(client, {client_id     :: binary(),
                  client_secret :: binary(),
                  redirect_uri  :: binary()}).
+-type client() :: #client{}.
 
 %%%===================================================================
 %%% API
@@ -118,6 +122,10 @@ start(TablesConfig, Nodes) ->
 stop() ->
   ok.
 
+-spec get_user(binary()) -> user().
+get_user(Username) ->
+  get(?USER_TABLE, Username).
+
 -spec add_user(binary(), binary()) -> ok.
 add_user(Username, Password) ->
   put(?USER_TABLE, Username, #user{username = Username, password = Password}).
@@ -125,6 +133,10 @@ add_user(Username, Password) ->
 -spec delete_user(binary()) -> ok.
 delete_user(Username) ->
   delete(?USER_TABLE, Username).
+
+-spec get_client(binary()) -> client().
+get_client(ClientId) ->
+  get(?CLIENT_TABLE, ClientId).
 
 -spec add_client(binary(), binary(), binary()) -> ok.
 add_client(Id, Secret, RedirectUri) ->
